@@ -1,6 +1,5 @@
 package com.example.casosemestral.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,32 +11,44 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = PurplePrimaryDark,
+    onPrimary = OnPrimaryDark,
+    primaryContainer = PurpleDark,
+    onPrimaryContainer = PurpleLight,
+    secondary = PurpleSecondary,
+    onSecondary = OnPrimaryDark,
+    tertiary = PurpleTertiary,
+    background = BackgroundDark,
+    onBackground = OnBackgroundDark,
+    surface = SurfaceDark,
+    onSurface = OnSurfaceDark,
+    surfaceVariant = SurfaceVariantDark,
+    onSurfaceVariant = OnBackgroundDark,
+    outline = OutlineDark
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = PurplePrimary,
+    onPrimary = OnPrimaryLight,
+    primaryContainer = PurpleLight,
+    onPrimaryContainer = PurpleDark,
+    secondary = PurpleSecondary,
+    onSecondary = OnPrimaryLight,
+    tertiary = PurpleTertiary,
+    background = BackgroundLight,
+    onBackground = OnBackgroundLight,
+    surface = SurfaceLight,
+    onSurface = OnSurfaceLight,
+    surfaceVariant = SurfaceVariantLight,
+    onSurfaceVariant = OnBackgroundLight,
+    outline = OutlineLight
 )
 
 @Composable
 fun CasoSemestralTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    // Desactivamos dynamicColor por defecto para mantener la paleta morada personalizada
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
