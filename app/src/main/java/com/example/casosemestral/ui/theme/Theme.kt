@@ -47,7 +47,6 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun CasoSemestralTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Desactivamos dynamicColor por defecto para mantener la paleta morada personalizada
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
