@@ -188,8 +188,12 @@ fun MainApp(corpalivViewModel: CorpalivViewModel = viewModel()) {
         containerColor = Color.LightGray
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize()) {
-
-
+            Image(
+                painter = painterResource(id = R.drawable.generic_background),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
             Box(modifier = Modifier.padding(innerPadding)) {
                 AnimatedContent(
                     targetState = uiState.selectedTab,
