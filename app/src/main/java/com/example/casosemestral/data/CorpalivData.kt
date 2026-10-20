@@ -2,10 +2,7 @@ package com.example.casosemestral.data
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Accessible
-import androidx.compose.material.icons.filled.Biotech
-import androidx.compose.material.icons.filled.HealthAndSafety
 import androidx.compose.material.icons.filled.LocalHospital
-import androidx.compose.material.icons.filled.Medication
 import androidx.compose.material.icons.filled.MedicalServices
 import androidx.compose.material.icons.filled.VolunteerActivism
 import androidx.compose.ui.graphics.vector.ImageVector

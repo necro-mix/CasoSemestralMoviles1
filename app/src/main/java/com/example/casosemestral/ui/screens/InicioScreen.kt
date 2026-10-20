@@ -53,7 +53,6 @@ fun InicioScreen(
     ) {
         item { Spacer(modifier = Modifier.height(8.dp)) }
 
-        // --- BANNER HERO / PROPÓSITO INSTITUCIONAL MÉDICO ---
         item {
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -146,7 +145,6 @@ fun InicioScreen(
             }
         }
 
-        // --- SECCIÓN: INDICADORES CLAVE DE IMPACTO ---
         item {
             Column {
                 Text(
@@ -210,12 +208,20 @@ fun InicioScreen(
                             color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f)
                         )
                     }
-
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
-                    )
+                    Button(
+                        onClick = onNavigateToContacto,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        ),
+                        modifier = Modifier
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
                 }
             }
         }
