@@ -1,5 +1,6 @@
 package com.example.casosemestral
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,6 +23,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Adb
 import androidx.compose.material.icons.filled.AdminPanelSettings
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -48,6 +50,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,6 +58,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.request.ImageRequest
 import com.example.casosemestral.data.UserRole
 import com.example.casosemestral.ui.CorpalivViewModel
 import com.example.casosemestral.ui.components.LoginModal
@@ -62,8 +68,12 @@ import com.example.casosemestral.ui.screens.CatalogoScreen
 import com.example.casosemestral.ui.screens.ContactoScreen
 import com.example.casosemestral.ui.screens.HistoriasScreen
 import com.example.casosemestral.ui.screens.InicioScreen
+import com.example.casosemestral.ui.screens.PruebasScreen
 import com.example.casosemestral.ui.screens.SolicitudesAdminScreen
 import com.example.casosemestral.ui.theme.CasoSemestralTheme
+
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,6 +131,17 @@ fun MainApp(corpalivViewModel: CorpalivViewModel = viewModel()) {
                 containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.94f),
                 tonalElevation = 8.dp
             ) {
+                NavigationBarItem(
+                selected = uiState.selectedTab == 5,
+                onClick = { corpalivViewModel.selectTab(5) },
+                icon = { Icon(Icons.Default.Adb, contentDescription = "Pruebas") },
+                label = { Text("espacio pa wear", fontSize = 11.sp) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    indicatorColor = MaterialTheme.colorScheme.primaryContainer
+                )
+            )
                 NavigationBarItem(
                     selected = uiState.selectedTab == 0,
                     onClick = { corpalivViewModel.selectTab(0) },
@@ -250,6 +271,10 @@ fun MainApp(corpalivViewModel: CorpalivViewModel = viewModel()) {
                             onMarkAsContacted = { id -> corpalivViewModel.markAsContacted(id) },
                             onDeleteRegistration = { id -> corpalivViewModel.eliminarRegistroInteres(id) }
                         )
+                        5 -> PruebasScreen(
+
+                            onSubmit = { showLoginSheet = true }//corpalivViewModel.registrarNuevoUsuario(it)
+                        )
                         else -> InicioScreen(
                             onNavigateToCatalogo = { corpalivViewModel.selectTab(1) },
                             onNavigateToContacto = { corpalivViewModel.selectTab(3) }
@@ -266,6 +291,7 @@ fun MainApp(corpalivViewModel: CorpalivViewModel = viewModel()) {
             isLoggedIn = uiState.isLoggedIn,
             currentUserRole = uiState.currentUserRole,
             currentUserName = uiState.userProfileName,
+            currentUserImageUrl = uiState.userProfileUrl,
             errorMessage = uiState.authErrorMessage,
             onDismiss = {
                 showLoginSheet = false
@@ -284,6 +310,9 @@ fun MainApp(corpalivViewModel: CorpalivViewModel = viewModel()) {
                     corpalivViewModel.selectTab(4)
                 }
                 success
+            },
+            onChangeProfilePicture = { newUrl: String ->
+                corpalivViewModel.updateProfileImage(newUrl)
             },
             onLogout = {
                 corpalivViewModel.logout()
@@ -308,9 +337,25 @@ fun ProfileIconButton(
         .clip(CircleShape)
         .clickable { onClick() }
 
+    val context = LocalContext.current
+
     if (isLoggedIn && !imageUrl.isNullOrEmpty()) {
+        val imageRequest = remember(imageUrl, context) {
+            ImageRequest.Builder(context)
+                .data(imageUrl)
+                .crossfade(true)
+                .decoderFactory(
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        ImageDecoderDecoder.Factory()
+                    } else {
+                        GifDecoder.Factory()
+                    }
+                )
+                .build()
+        }
+
         AsyncImage(
-            model = imageUrl,
+            model = imageRequest,
             contentDescription = "Perfil",
             contentScale = ContentScale.Crop,
             error = painterResource(id = R.drawable.ic_launcher_foreground),

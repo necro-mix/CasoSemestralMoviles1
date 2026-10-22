@@ -13,12 +13,12 @@ class CasoSemestralApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // Captura global anti-cierre y guardado de crash logs en carpeta local
+        // CTM DEJA DE CRAAAASHEEAAAAAR
         val defaultHandler = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
             Log.e("CrashPrevention", "Se evitó el cierre de la app: ${throwable.localizedMessage}", throwable)
 
-            // Guardar reporte de excepción en carpeta 'crash_logs'
+            // guardar log crasheo
             val savedFile = CrashLogger.saveCrashLog(applicationContext, throwable, "GlobalUncaughtHandler")
 
             Handler(Looper.getMainLooper()).post {

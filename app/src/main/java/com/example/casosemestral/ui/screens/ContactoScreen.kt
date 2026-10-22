@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.automirrored.filled.Send
@@ -141,11 +143,12 @@ fun ContactoScreen(
                     // Teléfono
                     OutlinedTextField(
                         value = uiState.formState.phone,
-                        onValueChange = onPhoneChanged,
+                        onValueChange = { input -> onPhoneChanged(input.filter { it.isDigit() }) },
                         label = { Text("Teléfono de contacto") },
                         leadingIcon = {
                             Icon(Icons.Default.Phone, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                         },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
                         singleLine = true

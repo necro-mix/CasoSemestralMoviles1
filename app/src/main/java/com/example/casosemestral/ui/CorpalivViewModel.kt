@@ -257,7 +257,7 @@ class CorpalivViewModel(application: Application) : AndroidViewModel(application
                         isLoggedIn = true,
                         currentUserRole = user.rol,
                         userProfileName = user.nombre,
-                        userProfileUrl = if (user.rol == UserRole.ADMIN_TEAM) "https://picsum.photos/201" else "https://picsum.photos/200",
+                        userProfileUrl = if (user.rol == UserRole.ADMIN_TEAM)  "https://picsum.photos/201" else "https://picsum.photos/200",
                         authErrorMessage = null
                     )
                 }
@@ -278,6 +278,14 @@ class CorpalivViewModel(application: Application) : AndroidViewModel(application
             _uiState.update { it.copy(authErrorMessage = null) }
         } catch (t: Throwable) {
             CrashLogger.saveCrashLog(getApplication(), t, "ViewModel_clearAuthErrorMessage")
+        }
+    }
+
+    fun updateProfileImage(newUrlOrUri: String) {
+        try {
+            _uiState.update { it.copy(userProfileUrl = newUrlOrUri) }
+        } catch (t: Throwable) {
+            CrashLogger.saveCrashLog(getApplication(), t, "ViewModel_updateProfileImage")
         }
     }
 
